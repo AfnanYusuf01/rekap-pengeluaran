@@ -353,35 +353,42 @@ h1, h2, h3, h4 {
 /* ==========================================================================
    CATEGORY CARDS & TRANSACTION LISTS
    ========================================================================== */
-.category-card {
+/* Unified Categories List Card Container */
+#categories-container {
   background-color: var(--bg-card);
-  border-radius: var(--radius-card);
-  box-shadow: var(--shadow-thin);
+  border-radius: 24px;
   border: 1px solid var(--border-color);
-  padding: 1.5rem;
-  margin-bottom: 1.25rem;
+  box-shadow: var(--shadow-thin);
+  padding: 0.5rem 1.5rem;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
-  transition: transform var(--transition-fast), box-shadow var(--transition-normal);
 }
 
-.category-card:hover {
-  box-shadow: var(--shadow-premium);
+/* Category sleek row layout (replacing bulky individual cards) */
+.category-card {
+  background: transparent !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  padding: 1.25rem 0 !important;
+  margin-bottom: 0 !important;
+  border-bottom: 1px solid var(--border-color) !important;
+  display: flex;
+  flex-direction: column;
+  transition: all var(--transition-fast);
 }
 
-/* Category-Specific Borders (Visual UX scan improvement) */
-.category-card.cat-tabungan { border-left: 4px solid #10b981; }
-.category-card.cat-kost { border-left: 4px solid #8b5cf6; }
-.category-card.cat-makan { border-left: 4px solid #f59e0b; }
-.category-card.cat-bensin { border-left: 4px solid #0ea5e9; }
-.category-card.cat-sabun { border-left: 4px solid #06b6d4; }
-.category-card.cat-jalanjalan { border-left: 4px solid #eab308; }
-.category-card.cat-bucin { border-left: 4px solid #ec4899; }
-.category-card.cat-cadangan { border-left: 4px solid #6366f1; }
-.category-card.cat-lainlain { border-left: 4px solid #64748b; }
+.category-card:last-child {
+  border-bottom: none !important;
+}
 
-.category-card.over-budget {
-  border-left: 4px solid var(--danger-color) !important;
+.category-card.over-budget .category-title {
+  color: var(--danger-color);
+}
+.category-card.over-budget .category-icon-wrapper {
+  background-color: #fef2f2;
+  color: var(--danger-color);
 }
 
 /* Card Header clickable button */
@@ -562,20 +569,27 @@ h1, h2, h3, h4 {
 
 /* Card footer details */
 .card-footer {
-  border-top: 1px dashed var(--border-color);
   margin-top: 0.75rem;
-  padding-top: 0.75rem;
   display: flex;
-  flex-direction: column;
-  gap: 0.35rem;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
 }
 
 .footer-row {
   display: flex;
-  justify-content: space-between;
-  font-size: 0.85rem;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.78rem;
   font-weight: 600;
   color: var(--text-muted);
+}
+
+.footer-row span:first-child {
+  color: var(--text-light);
+  text-transform: uppercase;
+  font-size: 0.7rem;
+  letter-spacing: 0.02em;
 }
 
 .footer-row .val {

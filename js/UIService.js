@@ -46,6 +46,56 @@ export class UIService {
     };
 
     this.initializeCategoryDropdown();
+    this.bindThousandSeparators();
+  }
+
+  /**
+   * Bind dynamic thousand separators to input fields
+   */
+  bindThousandSeparators() {
+    if (this.elements.txAmountInput) {
+      this.applyThousandSeparator(this.elements.txAmountInput);
+    }
+    if (this.elements.settingsSalaryInput) {
+      this.applyThousandSeparator(this.elements.settingsSalaryInput);
+    }
+  }
+
+  /**
+   * Utility to format numbers dynamically as user types, preserving cursor position
+   * @param {HTMLInputElement} inputEl 
+   */
+  applyThousandSeparator(inputEl) {
+    inputEl.addEventListener('input', (e) => {
+      const cursor = e.target.selectionStart;
+      const cleanVal = e.target.value.replace(/\D/g, '');
+      if (!cleanVal) {
+        e.target.value = '';
+        return;
+      }
+      const formatted = Number(cleanVal).toLocaleString('id-ID');
+      
+      // Keep cursor position
+      const beforeCursor = e.target.value.substring(0, cursor);
+      const cleanBeforeCursor = beforeCursor.replace(/\D/g, '');
+      
+      e.target.value = formatted;
+      
+      let targetCursor = 0;
+      let digitsCount = 0;
+      const targetDigits = cleanBeforeCursor.length;
+      
+      for (let i = 0; i < formatted.length; i++) {
+        if (/\d/.test(formatted[i])) {
+          digitsCount++;
+        }
+        targetCursor = i + 1;
+        if (digitsCount === targetDigits) {
+          break;
+        }
+      }
+      e.target.setSelectionRange(targetCursor, targetCursor);
+    });
   }
 
   /**
@@ -393,7 +443,7 @@ export class UIService {
       // Edit mode
       this.elements.txTitle.textContent = 'Ubah Transaksi';
       this.elements.txIdInput.value = transaction.id;
-      this.elements.txAmountInput.value = transaction.amount;
+      this.elements.txAmountInput.value = Number(transaction.amount).toLocaleString('id-ID');
       this.elements.txCategorySelect.value = transaction.category;
       this.elements.txDescriptionInput.value = transaction.description;
       this.elements.txDateInput.value = transaction.date;
@@ -412,7 +462,7 @@ export class UIService {
     // Attach Submit Callback
     this.elements.txForm.onsubmit = (e) => {
       e.preventDefault();
-      const amount = Number(this.elements.txAmountInput.value);
+      const amount = Number(this.elements.txAmountInput.value.replace(/\D/g, ''));
       const category = this.elements.txCategorySelect.value;
       const description = this.elements.txDescriptionInput.value;
       const date = this.elements.txDateInput.value;
@@ -449,7 +499,7 @@ export class UIService {
     this.elements.settingsForm.reset();
     
     // Fill Gaji
-    this.elements.settingsSalaryInput.value = settings.salary || 0;
+    this.elements.settingsSalaryInput.value = Number(settings.salary || 0).toLocaleString('id-ID');
     
     // Fill category budgets dynamically
     const categories = BudgetService.getAllCategories();
@@ -463,9 +513,16 @@ export class UIService {
         group.className = 'form-group';
         group.innerHTML = `
           <label for="settings-budget-${cat.key}">Budget ${cat.displayName}</label>
-          <input type="number" id="settings-budget-${cat.key}" name="budget-${cat.key}" value="${val}" min="0" required class="form-input">
+          <div class="input-prefix-wrapper">
+            <span class="input-prefix-text">Rp</span>
+            <input type="text" id="settings-budget-${cat.key}" name="budget-${cat.key}" value="${Number(val).toLocaleString('id-ID')}" required class="form-input with-prefix">
+          </div>
         `;
         budgetsContainer.appendChild(group);
+
+        // Bind format-on-type listener to newly created input
+        const inputEl = document.getElementById(`settings-budget-${cat.key}`);
+        this.applyThousandSeparator(inputEl);
       });
     }
 
@@ -479,13 +536,13 @@ export class UIService {
     this.elements.settingsForm.onsubmit = (e) => {
       e.preventDefault();
       
-      const salary = Number(this.elements.settingsSalaryInput.value);
+      const salary = Number(this.elements.settingsSalaryInput.value.replace(/\D/g, ''));
       
       // Collect budgets
       const budgets = {};
       categories.forEach(cat => {
         const input = document.getElementById(`settings-budget-${cat.key}`);
-        budgets[cat.key] = Number(input.value) || 0;
+        budgets[cat.key] = Number(input.value.replace(/\D/g, '')) || 0;
       });
 
       // Collect GitHub config

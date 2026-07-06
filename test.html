@@ -161,8 +161,8 @@
       
       assert(
         'ReportService: Hitung Sisa Saldo (Gaji - Total Pengeluaran)', 
-        summary.sisaSaldo === 5980000, // 6.000.000 - 20.000 (Makan) = 5.980.000
-        `Gaji: 6.000.000, Pengeluaran Non-Tabungan: 20.000 | Harapan Sisa Saldo: 5.980.000 | Hasil: ${summary.sisaSaldo}`
+        summary.sisaSaldo === 5480000, // 6.000.000 - 520.000 (Makan & Tabungan) = 5.480.000
+        `Gaji: 6.000.000, Total Pengeluaran: 520.000 | Harapan Sisa Saldo: 5.480.000 | Hasil: ${summary.sisaSaldo}`
       );
       assert(
         'ReportService: Sudah Ditabung (Tabungan category sum)', 

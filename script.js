@@ -232,6 +232,68 @@ async function handleCopyReport() {
   }
 }
 
+/**
+ * Check Password Lock Screen before loading application data
+ */
+function initLockScreen() {
+  const isUnlocked = localStorage.getItem('expense_tracker_unlocked') === 'true';
+  const lockOverlay = document.getElementById('lock-screen');
+  const lockForm = document.getElementById('lock-form');
+  const lockPassword = document.getElementById('lock-password');
+  const btnTogglePwd = document.getElementById('btn-toggle-lock-pwd');
+  const lockCard = lockOverlay?.querySelector('.lock-card');
+  const lockError = document.getElementById('lock-error-msg');
+  
+  if (isUnlocked) {
+    // Proceed directly to load app
+    loadAppData(true);
+    return;
+  }
+  
+  // Show lock overlay
+  lockOverlay.classList.add('active');
+  document.body.classList.add('modal-open');
+  
+  // Eye button show/hide password
+  if (btnTogglePwd && lockPassword) {
+    btnTogglePwd.onclick = () => {
+      const isPwd = lockPassword.type === 'password';
+      lockPassword.type = isPwd ? 'text' : 'password';
+      btnTogglePwd.style.color = isPwd ? 'var(--primary-color)' : 'var(--text-light)';
+    };
+  }
+  
+  if (lockForm) {
+    lockForm.onsubmit = (e) => {
+      e.preventDefault();
+      const pwd = lockPassword.value;
+      
+      if (pwd === "1Bnutaufiq!!") {
+        // Correct password
+        localStorage.setItem('expense_tracker_unlocked', 'true');
+        lockOverlay.classList.remove('active');
+        document.body.classList.remove('modal-open');
+        ui.showToast('Akses terbuka. Selamat datang!', 'success');
+        
+        // Start app load
+        loadAppData(true);
+      } else {
+        // Incorrect password
+        lockPassword.value = '';
+        if (lockError) lockError.textContent = 'Kata sandi salah!';
+        
+        // Trigger shake animation
+        if (lockCard) {
+          lockCard.classList.add('shake');
+          setTimeout(() => {
+            lockCard.classList.remove('shake');
+          }, 500);
+        }
+      }
+    };
+  }
+}
+
 /* ==========================================================================
    EVENT LISTENERS INITIALIZATION
    ========================================================================== */
@@ -259,12 +321,12 @@ document.addEventListener('DOMContentLoaded', () => {
   // Close modals when clicking overlay backdrop
   document.querySelectorAll('.modal-overlay').forEach(overlay => {
     overlay.addEventListener('click', (e) => {
-      if (e.target === overlay) {
+      if (e.target === overlay && overlay.id !== 'lock-screen') {
         ui.closeModal(overlay);
       }
     });
   });
 
-  // Initial load
-  loadAppData(true);
+  // Check access lock screen first
+  initLockScreen();
 });

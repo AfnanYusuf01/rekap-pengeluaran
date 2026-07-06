@@ -168,6 +168,7 @@ function handleOpenHistory() {
   
   ui.renderHistoryMonths(availableMonths, activeMonth, (selectedMonth) => {
     activeMonth = selectedMonth;
+    ui.closeModal(ui.elements.historyModal);
     refreshDashboardUI();
     ui.showToast(`Menampilkan laporan untuk ${formatMonthName(selectedMonth)}`, 'info');
   });

@@ -1,0 +1,180 @@
+{
+  "settings": {
+    "salary": 6000000,
+    "budgets": {
+      "tabungan": 3000000,
+      "kost": 1000000,
+      "makan": 565000,
+      "bensin": 130000,
+      "sabun": 100000,
+      "jalanjalan": 300000,
+      "bucin": 500000,
+      "cadangan": 405000,
+      "lainlain": 0
+    }
+  },
+  "transactions": {
+    "2026-07": [
+      {
+        "id": 1,
+        "date": "2026-07-01",
+        "category": "Tabungan",
+        "amount": 500000,
+        "description": "Sudah dipisahkan",
+        "created_at": "2026-07-01T09:00"
+      },
+      {
+        "id": 2,
+        "date": "2026-07-01",
+        "category": "Kost",
+        "amount": 1000000,
+        "description": "Sudah dibayar",
+        "created_at": "2026-07-01T10:00"
+      },
+      {
+        "id": 3,
+        "date": "2026-07-01",
+        "category": "Makan",
+        "amount": 7000,
+        "description": "Makan",
+        "created_at": "2026-07-01T12:00"
+      },
+      {
+        "id": 4,
+        "date": "2026-07-02",
+        "category": "Makan",
+        "amount": 8000,
+        "description": "Ngopi",
+        "created_at": "2026-07-02T08:00"
+      },
+      {
+        "id": 5,
+        "date": "2026-07-02",
+        "category": "Makan",
+        "amount": 15000,
+        "description": "DO",
+        "created_at": "2026-07-02T13:00"
+      },
+      {
+        "id": 6,
+        "date": "2026-07-02",
+        "category": "Sabun",
+        "amount": 75000,
+        "description": "Sabun",
+        "created_at": "2026-07-02T16:00"
+      },
+      {
+        "id": 7,
+        "date": "2026-07-03",
+        "category": "Makan",
+        "amount": 6500,
+        "description": "Roti",
+        "created_at": "2026-07-03T07:30"
+      },
+      {
+        "id": 8,
+        "date": "2026-07-03",
+        "category": "Makan",
+        "amount": 13000,
+        "description": "Makan",
+        "created_at": "2026-07-03T12:30"
+      },
+      {
+        "id": 9,
+        "date": "2026-07-03",
+        "category": "Lain-lain",
+        "amount": 100000,
+        "description": "Beli kursi",
+        "created_at": "2026-07-03T15:00"
+      },
+      {
+        "id": 10,
+        "date": "2026-07-04",
+        "category": "Makan",
+        "amount": 22000,
+        "description": "Air galon",
+        "created_at": "2026-07-04T10:00"
+      },
+      {
+        "id": 11,
+        "date": "2026-07-04",
+        "category": "Makan",
+        "amount": 9000,
+        "description": "Makan",
+        "created_at": "2026-07-04T13:00"
+      },
+      {
+        "id": 12,
+        "date": "2026-07-04",
+        "category": "Bucin",
+        "amount": 250000,
+        "description": "Buat ayang",
+        "created_at": "2026-07-04T19:00"
+      },
+      {
+        "id": 13,
+        "date": "2026-07-05",
+        "category": "Makan",
+        "amount": 23000,
+        "description": "Kopi",
+        "created_at": "2026-07-05T09:00"
+      },
+      {
+        "id": 14,
+        "date": "2026-07-05",
+        "category": "Jalan-jalan",
+        "amount": 100000,
+        "description": "Simaksi Gunung Gede",
+        "created_at": "2026-07-05T10:00"
+      },
+      {
+        "id": 15,
+        "date": "2026-07-05",
+        "category": "Jalan-jalan",
+        "amount": 50000,
+        "description": "Bensin ke Gunung Gede",
+        "created_at": "2026-07-05T11:00"
+      },
+      {
+        "id": 16,
+        "date": "2026-07-05",
+        "category": "Jalan-jalan",
+        "amount": 20000,
+        "description": "Makan di Gunung Gede",
+        "created_at": "2026-07-05T13:00"
+      },
+      {
+        "id": 17,
+        "date": "2026-07-06",
+        "category": "Jalan-jalan",
+        "amount": 10000,
+        "description": "Jajan di Gunung Gede",
+        "created_at": "2026-07-06T09:00"
+      },
+      {
+        "id": 18,
+        "date": "2026-07-06",
+        "category": "Jalan-jalan",
+        "amount": 21000,
+        "description": "Makan di Gunung Gede",
+        "created_at": "2026-07-06T12:00"
+      },
+      {
+        "id": 19,
+        "date": "2026-07-06",
+        "category": "Jalan-jalan",
+        "amount": 11500,
+        "description": "Kopi di Gunung Gede",
+        "created_at": "2026-07-06T15:00"
+      },
+      {
+        "id": 20,
+        "date": "2026-07-06",
+        "category": "Lain-lain",
+        "amount": 78000,
+        "description": "Jersey",
+        "created_at": "2026-07-06T18:00"
+      }
+    ]
+  }
+}

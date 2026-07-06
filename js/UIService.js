@@ -289,12 +289,19 @@ export class UIService {
         
         // Card Header (Clickable Accordion Trigger)
         let headerHTML = '';
+        const iconSvg = this.getCategoryIconSvg(cat.key);
+        
         if (isTab) {
           headerHTML = `
             <div class="card-header-clickable">
-              <div class="header-info">
-                <h3 class="category-title">1. ${cat.displayName.toUpperCase()}</h3>
-                <span class="budget-limit">Target: <strong>${formatRupiah(budgetVal)}</strong></span>
+              <div class="header-left-side">
+                <div class="category-icon-wrapper">
+                  ${iconSvg}
+                </div>
+                <div class="header-info">
+                  <h3 class="category-title">1. ${cat.displayName.toUpperCase()}</h3>
+                  <span class="budget-limit">Target: <strong>${formatRupiah(budgetVal)}</strong></span>
+                </div>
               </div>
               <div class="header-action">
                 <span class="tx-count-badge">${txList.length} tx</span>
@@ -307,9 +314,14 @@ export class UIService {
         } else {
           headerHTML = `
             <div class="card-header-clickable">
-              <div class="header-info">
-                <h3 class="category-title">${cat.displayName.toUpperCase()}</h3>
-                <span class="budget-limit">Budget: <strong>${formatRupiah(budgetVal)}</strong></span>
+              <div class="header-left-side">
+                <div class="category-icon-wrapper">
+                  ${iconSvg}
+                </div>
+                <div class="header-info">
+                  <h3 class="category-title">${cat.displayName.toUpperCase()}</h3>
+                  <span class="budget-limit">Budget: <strong>${formatRupiah(budgetVal)}</strong></span>
+                </div>
               </div>
               <div class="header-action">
                 <span class="tx-count-badge">${txList.length} tx</span>
@@ -600,5 +612,25 @@ export class UIService {
     };
 
     this.openModal(this.elements.settingsModal);
+  }
+
+  /**
+   * Get dynamic SVG icon for each category key
+   * @param {string} key 
+   * @returns {string}
+   */
+  getCategoryIconSvg(key) {
+    const icons = {
+      tabungan: `<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>`,
+      kost: `<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>`,
+      makan: `<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8h1a4 4 0 0 1 0 8h-1"></path><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"></path><line x1="6" y1="1" x2="6" y2="4"></line><line x1="10" y1="1" x2="10" y2="4"></line><line x1="14" y1="1" x2="14" y2="4"></line></svg>`,
+      bensin: `<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-1.1 0-2 .9-2 2v9c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2v-4M7 9h4v4H7zM9 13v6M17 9v6"></path></svg>`,
+      sabun: `<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22a7 7 0 0 0 7-7c0-4.3-7-11-7-11S5 10.7 5 15a7 7 0 0 0 7 7z"></path></svg>`,
+      jalanjalan: `<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon></svg>`,
+      bucin: `<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>`,
+      cadangan: `<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>`,
+      lainlain: `<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>`
+    };
+    return icons[key] || icons.lainlain;
   }
 }

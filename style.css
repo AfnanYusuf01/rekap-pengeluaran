@@ -384,11 +384,64 @@ h1, h2, h3, h4 {
   border-left: 4px solid var(--danger-color) !important;
 }
 
-.card-header {
+/* Card Header clickable button */
+.card-header-clickable {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  width: 100%;
+  cursor: pointer;
+  user-select: none;
   margin-bottom: 0.5rem;
+}
+
+.header-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.header-action {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Badge showing transaction counts */
+.tx-count-badge {
+  font-size: 0.7rem;
+  font-weight: 700;
+  background-color: var(--bg-input);
+  color: var(--text-muted);
+  padding: 0.2rem 0.5rem;
+  border-radius: 99px;
+  text-transform: uppercase;
+}
+
+/* Chevron icon animation */
+.chevron-icon {
+  color: var(--text-light);
+  transition: transform var(--transition-normal);
+}
+
+.category-card.expanded .chevron-icon {
+  transform: rotate(180deg);
+  color: var(--primary-color);
+}
+
+/* Expandable Grid Transition (Pure CSS 0fr to 1fr) */
+.card-expandable-content {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows var(--transition-normal);
+}
+
+.category-card.expanded .card-expandable-content {
+  grid-template-rows: 1fr;
+}
+
+.card-expandable-inner {
+  overflow: hidden;
 }
 
 .category-title {

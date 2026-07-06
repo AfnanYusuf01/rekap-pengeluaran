@@ -47,6 +47,7 @@ export class UIService {
 
     this.initializeCategoryDropdown();
     this.bindThousandSeparators();
+    this.expandedCategories = new Set();
   }
 
   /**
@@ -281,30 +282,55 @@ export class UIService {
         const catColorClass = `cat-${cat.key}`;
         card.className = `category-card ${catColorClass} ${isOverBudget ? 'over-budget' : ''}`;
         
-        // Card Header
+        // Pre-expand if it was previously expanded
+        if (this.expandedCategories.has(cat.key)) {
+          card.classList.add('expanded');
+        }
+        
+        // Card Header (Clickable Accordion Trigger)
         let headerHTML = '';
         if (isTab) {
           headerHTML = `
-            <div class="card-header">
-              <h3 class="category-title">1. ${cat.displayName.toUpperCase()}</h3>
-              <span class="budget-limit">Target: <strong>${formatRupiah(budgetVal)}</strong></span>
+            <div class="card-header-clickable">
+              <div class="header-info">
+                <h3 class="category-title">1. ${cat.displayName.toUpperCase()}</h3>
+                <span class="budget-limit">Target: <strong>${formatRupiah(budgetVal)}</strong></span>
+              </div>
+              <div class="header-action">
+                <span class="tx-count-badge">${txList.length} tx</span>
+                <svg class="chevron-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+              </div>
             </div>
           `;
         } else {
           headerHTML = `
-            <div class="card-header">
-              <h3 class="category-title">${cat.displayName.toUpperCase()}</h3>
-              <span class="budget-limit">Budget: <strong>${formatRupiah(budgetVal)}</strong></span>
+            <div class="card-header-clickable">
+              <div class="header-info">
+                <h3 class="category-title">${cat.displayName.toUpperCase()}</h3>
+                <span class="budget-limit">Budget: <strong>${formatRupiah(budgetVal)}</strong></span>
+              </div>
+              <div class="header-action">
+                <span class="tx-count-badge">${txList.length} tx</span>
+                <svg class="chevron-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+              </div>
             </div>
           `;
         }
 
-        // Transactions List
+        // Transactions List (Wrapped in expandable wrapper)
         let txListHTML = '';
+        txListHTML = `
+          <div class="card-expandable-content">
+            <div class="card-expandable-inner">
+        `;
         if (txList.length === 0) {
-          txListHTML = `<div class="no-tx-placeholder">Belum ada transaksi</div>`;
+          txListHTML += `<div class="no-tx-placeholder">Belum ada transaksi</div>`;
         } else {
-          txListHTML = `<div class="tx-list">`;
+          txListHTML += `<div class="tx-list">`;
           txList.forEach((tx, i) => {
             const letter = String.fromCharCode(97 + i); // a, b, c...
             txListHTML += `
@@ -324,6 +350,10 @@ export class UIService {
           });
           txListHTML += `</div>`;
         }
+        txListHTML += `
+            </div>
+          </div>
+        `;
 
         // Card Footer
         let footerHTML = '';
@@ -367,9 +397,21 @@ export class UIService {
           ${footerHTML}
         `;
 
+        // Bind Header click event to toggle accordion expansion
+        const headerBtn = card.querySelector('.card-header-clickable');
+        headerBtn.addEventListener('click', () => {
+          const isExpanded = card.classList.toggle('expanded');
+          if (isExpanded) {
+            this.expandedCategories.add(cat.key);
+          } else {
+            this.expandedCategories.delete(cat.key);
+          }
+        });
+
         // Attach listeners to transaction items
         card.querySelectorAll('.tx-item').forEach(item => {
-          item.addEventListener('click', () => {
+          item.addEventListener('click', (e) => {
+            e.stopPropagation(); // Avoid triggering card toggle (even though list is in separate wrapper)
             const txId = Number(item.getAttribute('data-id'));
             const tx = transactions.find(t => t.id === txId);
             if (tx) onSelectTransaction(tx);

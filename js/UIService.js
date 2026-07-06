@@ -108,9 +108,10 @@ export class UIService {
     // Auto-remove toast after 3 seconds
     setTimeout(() => {
       toast.classList.add('fade-out');
-      toast.addEventListener('transitionend', () => {
+      // Force remove after transition finishes
+      setTimeout(() => {
         toast.remove();
-      });
+      }, 300);
     }, 3000);
   }
 
@@ -141,6 +142,27 @@ export class UIService {
   }
 
   /**
+   * Dynamic greeting based on current local hour
+   */
+  updateGreeting() {
+    const greetingEl = document.getElementById('header-greeting');
+    if (!greetingEl) return;
+    
+    const hour = new Date().getHours();
+    let greeting = 'Selamat Pagi';
+    
+    if (hour >= 11 && hour < 15) {
+      greeting = 'Selamat Siang';
+    } else if (hour >= 15 && hour < 19) {
+      greeting = 'Selamat Sore';
+    } else if (hour >= 19 || hour < 5) {
+      greeting = 'Selamat Malam';
+    }
+    
+    greetingEl.textContent = `${greeting}, Kak! 👋`;
+  }
+
+  /**
    * Main dashboard render
    * @param {Object} settings 
    * @param {Array} transactions 
@@ -148,6 +170,9 @@ export class UIService {
    * @param {Function} onSelectTransaction Callback when transaction is clicked for edit
    */
   renderDashboard(settings, transactions, yearMonth, onSelectTransaction) {
+    // 0. Update dynamic greeting
+    this.updateGreeting();
+
     // 1. Update Month title
     if (this.elements.currentMonthDisplay) {
       this.elements.currentMonthDisplay.textContent = formatMonthName(yearMonth);
@@ -203,7 +228,8 @@ export class UIService {
 
         // Card Element
         const card = document.createElement('div');
-        card.className = `category-card ${isOverBudget ? 'over-budget' : ''}`;
+        const catColorClass = `cat-${cat.key}`;
+        card.className = `category-card ${catColorClass} ${isOverBudget ? 'over-budget' : ''}`;
         
         // Card Header
         let headerHTML = '';

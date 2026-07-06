@@ -139,10 +139,18 @@ h1, h2, h3, h4 {
   gap: 0.35rem;
 }
 
-.header-titles h1 {
+.header-greeting {
   font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--primary-color);
+  display: block;
+  margin-bottom: 0.1rem;
+}
+
+.header-titles h1 {
+  font-size: 0.82rem;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.12em;
   color: var(--text-muted);
   font-weight: 700;
 }
@@ -361,8 +369,19 @@ h1, h2, h3, h4 {
   box-shadow: var(--shadow-premium);
 }
 
+/* Category-Specific Borders (Visual UX scan improvement) */
+.category-card.cat-tabungan { border-left: 4px solid #10b981; }
+.category-card.cat-kost { border-left: 4px solid #8b5cf6; }
+.category-card.cat-makan { border-left: 4px solid #f59e0b; }
+.category-card.cat-bensin { border-left: 4px solid #0ea5e9; }
+.category-card.cat-sabun { border-left: 4px solid #06b6d4; }
+.category-card.cat-jalanjalan { border-left: 4px solid #eab308; }
+.category-card.cat-bucin { border-left: 4px solid #ec4899; }
+.category-card.cat-cadangan { border-left: 4px solid #6366f1; }
+.category-card.cat-lainlain { border-left: 4px solid #64748b; }
+
 .category-card.over-budget {
-  border-left: 4px solid var(--danger-color);
+  border-left: 4px solid var(--danger-color) !important;
 }
 
 .card-header {

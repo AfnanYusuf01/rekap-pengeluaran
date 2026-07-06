@@ -50,7 +50,7 @@ export class StorageService {
     if (!this.hasCredentials()) {
       // Try to fetch the hosted finance-data.json file from the web server
       try {
-        const response = await fetch('./finance-data.json', { cache: 'no-store' });
+        const response = await fetch(`./finance-data.json?t=${Date.now()}`);
         if (response.ok) {
           const fetchedData = await response.json();
           this.data = fetchedData;
@@ -103,7 +103,14 @@ export class StorageService {
       const mergedTransactions = this.mergeTransactions(latest.data.transactions || {}, this.data.transactions || {});
       
       this.data = {
-        settings: this.data.settings || latest.data.settings || GitHubService.getDefaultData().settings,
+        settings: {
+          ...(latest.data.settings || {}),
+          ...(this.data.settings || {}),
+          monthly: {
+            ...((latest.data.settings && latest.data.settings.monthly) || {}),
+            ...((this.data.settings && this.data.settings.monthly) || {})
+          }
+        },
         transactions: mergedTransactions
       };
 

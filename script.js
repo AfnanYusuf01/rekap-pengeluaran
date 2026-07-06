@@ -6,7 +6,8 @@ import {
   generateId, 
   getCurrentDateTimeString, 
   copyTextToClipboard, 
-  getCurrentYearMonth 
+  getCurrentYearMonth,
+  formatMonthName
 } from './js/Utils.js';
 
 // Initialize services

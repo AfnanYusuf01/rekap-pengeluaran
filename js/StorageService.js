@@ -48,6 +48,19 @@ export class StorageService {
    */
   async syncFromGitHub() {
     if (!this.hasCredentials()) {
+      // Try to fetch the hosted finance-data.json file from the web server
+      try {
+        const response = await fetch('./finance-data.json', { cache: 'no-store' });
+        if (response.ok) {
+          const fetchedData = await response.json();
+          this.data = fetchedData;
+          localStorage.setItem('expense_tracker_data_cache', JSON.stringify(this.data));
+          return this.data;
+        }
+      } catch (e) {
+        console.warn("Gagal mengambil data statis lokal:", e);
+      }
+
       // Fallback: load cache or default data
       this.data = this.getCachedData() || GitHubService.getDefaultData();
       this.sha = localStorage.getItem('expense_tracker_sha_cache') || null;

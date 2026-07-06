@@ -11,6 +11,22 @@
       "bucin": 500000,
       "cadangan": 405000,
       "lainlain": 0
+    },
+    "monthly": {
+      "2026-07": {
+        "salary": 4590000,
+        "budgets": {
+          "tabungan": 3000000,
+          "kost": 1000000,
+          "makan": 565000,
+          "bensin": 130000,
+          "sabun": 100000,
+          "jalanjalan": 300000,
+          "bucin": 500000,
+          "cadangan": 405000,
+          "lainlain": 0
+        }
+      }
     }
   },
   "transactions": {

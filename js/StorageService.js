@@ -163,25 +163,54 @@ export class StorageService {
   }
 
   /**
-   * Retrieve active settings
+   * Retrieve active settings with monthly override check
+   * @param {string} [month] Optional active month (YYYY-MM)
    * @returns {Object}
    */
-  getSettings() {
+  getSettings(month = null) {
     if (!this.data) {
       this.data = this.getCachedData() || GitHubService.getDefaultData();
     }
-    return this.data.settings;
+    if (!this.data.settings) {
+      this.data.settings = GitHubService.getDefaultData().settings;
+    }
+    
+    const globalSettings = this.data.settings;
+    if (month && globalSettings.monthly && globalSettings.monthly[month]) {
+      const overrides = globalSettings.monthly[month];
+      return {
+        salary: overrides.salary !== undefined ? overrides.salary : globalSettings.salary,
+        budgets: {
+          ...globalSettings.budgets,
+          ...(overrides.budgets || {})
+        }
+      };
+    }
+    return globalSettings;
   }
 
   /**
-   * Update active settings (Salary & budgets)
+   * Update active settings (Salary & budgets) for a specific month
    * @param {number} salary 
    * @param {Object} budgets 
+   * @param {string} [month] Optional month to apply overrides to (YYYY-MM)
    */
-  async updateSettings(salary, budgets) {
-    this.getSettings(); // ensure structure initialized
-    this.data.settings.salary = Number(salary);
-    this.data.settings.budgets = budgets;
+  async updateSettings(salary, budgets, month = null) {
+    this.getSettings(month); // ensure structure initialized
+    
+    if (month) {
+      if (!this.data.settings.monthly) {
+        this.data.settings.monthly = {};
+      }
+      this.data.settings.monthly[month] = {
+        salary: Number(salary),
+        budgets: budgets
+      };
+    } else {
+      this.data.settings.salary = Number(salary);
+      this.data.settings.budgets = budgets;
+    }
+    
     await this.syncToGitHub();
   }
 

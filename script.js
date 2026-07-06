@@ -56,7 +56,7 @@ async function loadAppData(forceFetch = true) {
  * Re-render dashboard components based on current cached state and activeMonth
  */
 function refreshDashboardUI() {
-  const settings = storage.getSettings();
+  const settings = storage.getSettings(activeMonth);
   const transactions = storage.getTransactions(activeMonth);
   
   // Render Dashboard Counters and Category lists
@@ -180,7 +180,7 @@ function handleOpenHistory() {
  * Open Settings Form (salary, budget category weights, and GitHub API credentials)
  */
 function handleOpenSettings() {
-  const settings = storage.getSettings();
+  const settings = storage.getSettings(activeMonth);
   const ghConfig = storage.config;
   
   ui.openSettingsModal(
@@ -195,7 +195,7 @@ function handleOpenSettings() {
         storage.saveConfig(newGhConfig);
         
         // Push settings updates to GitHub file
-        await storage.updateSettings(salary, budgets);
+        await storage.updateSettings(salary, budgets, activeMonth);
         ui.showToast('Pengaturan berhasil disimpan!', 'success');
         
         // Full reload to test connectivity with new credentials

@@ -66,53 +66,58 @@ export class ReportService {
     const summary = this.calculateSummary(settings, transactions);
     const monthLabel = formatMonthName(yearMonth).toUpperCase();
 
-    let text = `📅 PENGELUARAN BULAN ${monthLabel}\n`;
-    text += `====================================\n\n`;
+    let text = `*📅 REKAP PENGELUARAN BULAN ${monthLabel}*\n`;
+    text += `━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n`;
 
     const categories = BudgetService.getAllCategories();
+    const categoryEmojis = {
+      tabungan: '📈',
+      kost: '🏠',
+      makan: '🍔',
+      bensin: '🚗',
+      sabun: '💧',
+      jalanjalan: '🧭',
+      bucin: '💖',
+      cadangan: '🛡️',
+      lainlain: '❓'
+    };
     
     categories.forEach((cat, index) => {
       const isTab = BudgetService.isTabungan(cat.key);
       const budgetVal = settings.budgets[cat.key] || 0;
       const txList = summary.categoryTransactions[cat.key] || [];
+      const emoji = categoryEmojis[cat.key] || '❓';
+      const label = isTab ? 'Target' : 'Budget';
 
-      text += `${index + 1}. ${cat.displayName.toUpperCase()}\n\n`;
+      text += `*${index + 1}. ${emoji} ${cat.displayName.toUpperCase()} (${label}: ${formatRupiah(budgetVal)})*\n`;
       
-      txList.forEach((tx, i) => {
-        const letter = String.fromCharCode(97 + i); // a, b, c...
-        text += `${letter}. ${formatRupiah(tx.amount)} - ${tx.description}\n`;
+      txList.forEach((tx) => {
+        text += `• ${formatRupiah(tx.amount)} - ${tx.description}\n`;
       });
       
-      if (txList.length > 0) {
-        text += `\n`;
-      }
+      let catTotal = 0;
+      txList.forEach(tx => {
+        catTotal += Number(tx.amount) || 0;
+      });
 
       if (isTab) {
-        text += `Sisa Target:\n${formatRupiah(summary.sisaTargetTabungan)}\n`;
+        text += `👉 _Sisa Target: ${formatRupiah(Math.max(0, budgetVal - catTotal))}_\n`;
       } else {
-        let catTotal = 0;
-        txList.forEach(tx => {
-          catTotal += Number(tx.amount) || 0;
-        });
         const sisaBudget = budgetVal - catTotal;
-        text += `Total:\n${formatRupiah(catTotal)}\n\n`;
-        text += `Sisa Budget:\n${formatRupiah(sisaBudget)}\n`;
+        const overbudgetAlert = sisaBudget < 0 ? ' ⚠️' : '';
+        text += `👉 _Total: ${formatRupiah(catTotal)} (Sisa: ${formatRupiah(sisaBudget)})${overbudgetAlert}_\n`;
       }
 
-      // Separate with --- unless it's the last category
-      if (index < categories.length - 1) {
-        text += `------------------------------------\n\n`;
-      }
+      text += `\n`;
     });
 
-    text += `====================================\n\n`;
-    text += `📊 RINGKASAN\n\n`;
-    text += `Gaji\n${formatRupiah(summary.salary)}\n\n`;
-    text += `Total Pengeluaran\n${formatRupiah(summary.totalPengeluaran)}\n\n`;
-    text += `Sisa Saldo\n${formatRupiah(summary.sisaSaldo)}\n\n`;
-    text += `Target Tabungan\n${formatRupiah(summary.targetTabungan)}\n\n`;
-    text += `Sudah Ditabung\n${formatRupiah(summary.sudahDitabung)}\n\n`;
-    text += `Sisa Target\n${formatRupiah(summary.sisaTargetTabungan)}`;
+    text += `━━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
+    text += `*📊 RINGKASAN UTAMA*\n`;
+    text += `💰 Gaji: *${formatRupiah(summary.salary)}*\n`;
+    text += `💸 Total Pengeluaran: *${formatRupiah(summary.totalPengeluaran)}*\n`;
+    text += `💵 Sisa Saldo: *${formatRupiah(summary.sisaSaldo)}*\n`;
+    text += `📈 Sudah Ditabung: *${formatRupiah(summary.sudahDitabung)}* (Sisa Target: *${formatRupiah(summary.sisaTargetTabungan)}*)\n`;
+    text += `━━━━━━━━━━━━━━━━━━━━━━━━━━`;
 
     return text;
   }

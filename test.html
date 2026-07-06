@@ -179,8 +179,8 @@
       const waReport = ReportService.generateWhatsAppReport('2026-07', dummySettings, dummyTransactions);
       assert(
         'ReportService: WhatsApp Report format generation', 
-        typeof waReport === 'string' && waReport.includes('📅 PENGELUARAN BULAN JULI 2026') && waReport.includes('Sisa Target:\nRp2.500.000'),
-        `Harapan: Laporan text valid berisi Bulan Juli & Sisa Target Rp2.500.000 | Hasil: \n${waReport}`
+        typeof waReport === 'string' && waReport.includes('REKAP PENGELUARAN BULAN JULI 2026') && waReport.includes('Sisa Target: Rp2.500.000'),
+        `Harapan: Laporan text berisi Bulan Juli & Sisa Target Rp2.500.000 | Hasil: \n${waReport}`
       );
 
     } catch (e) {

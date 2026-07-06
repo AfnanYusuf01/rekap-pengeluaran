@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Unit Test - Personal Expense Tracker</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      padding: 2rem;
+      background: #f8fafc;
+      color: #0f172a;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    h1 {
+      border-bottom: 2px solid #e2e8f0;
+      padding-bottom: 0.5rem;
+      font-size: 1.5rem;
+    }
+    .test-case {
+      padding: 0.75rem 1rem;
+      border-radius: 8px;
+      margin-bottom: 0.5rem;
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: monospace;
+    }
+    .success {
+      border-left: 5px solid #10b981;
+    }
+    .fail {
+      border-left: 5px solid #ef4444;
+      background: #fef2f2;
+    }
+    .badge {
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 0.25rem 0.5rem;
+      border-radius: 4px;
+      text-transform: uppercase;
+    }
+    .badge-pass {
+      background: #d1fae5;
+      color: #065f46;
+    }
+    .badge-fail {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+    .details {
+      font-size: 0.8rem;
+      color: #64748b;
+      margin-top: 0.25rem;
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <h1>Hasil Pengujian Unit (Unit Tests)</h1>
+  <div id="results"></div>
+
+  <script type="module">
+    import { formatRupiah, formatMonthName, parseMonthName } from './js/Utils.js';
+    import { BudgetService } from './js/BudgetService.js';
+    import { ReportService } from './js/ReportService.js';
+
+    const resultsEl = document.getElementById('results');
+
+    function assert(name, condition, details = '') {
+      const container = document.createElement('div');
+      container.className = `test-case ${condition ? 'success' : 'fail'}`;
+      
+      const left = document.createElement('div');
+      left.innerHTML = `<strong>${name}</strong>`;
+      if (details) {
+        left.innerHTML += `<span class="details">${details}</span>`;
+      }
+      
+      const badge = document.createElement('span');
+      badge.className = `badge ${condition ? 'badge-pass' : 'badge-fail'}`;
+      badge.textContent = condition ? 'PASS' : 'FAIL';
+      
+      container.appendChild(left);
+      container.appendChild(badge);
+      resultsEl.appendChild(container);
+    }
+
+    try {
+      // Test 1: formatRupiah
+      assert(
+        'formatRupiah (6000000)', 
+        formatRupiah(6000000) === 'Rp6.000.000', 
+        `Harapan: Rp6.000.000 | Hasil: ${formatRupiah(6000000)}`
+      );
+      assert(
+        'formatRupiah (0)', 
+        formatRupiah(0) === 'Rp0', 
+        `Harapan: Rp0 | Hasil: ${formatRupiah(0)}`
+      );
+      assert(
+        'formatRupiah (-15000)', 
+        formatRupiah(-15000) === '-Rp15.000', 
+        `Harapan: -Rp15.000 | Hasil: ${formatRupiah(-15000)}`
+      );
+
+      // Test 2: formatMonthName
+      assert(
+        'formatMonthName (2026-07)', 
+        formatMonthName('2026-07') === 'Juli 2026', 
+        `Harapan: Juli 2026 | Hasil: ${formatMonthName('2026-07')}`
+      );
+      assert(
+        'formatMonthName (2026-12)', 
+        formatMonthName('2026-12') === 'Desember 2026', 
+        `Harapan: Desember 2026 | Hasil: ${formatMonthName('2026-12')}`
+      );
+
+      // Test 3: parseMonthName
+      assert(
+        'parseMonthName ("Juli 2026")', 
+        parseMonthName('Juli 2026') === '2026-07', 
+        `Harapan: 2026-07 | Hasil: ${parseMonthName('Juli 2026')}`
+      );
+
+      // Test 4: BudgetService Category mapping
+      assert(
+        'BudgetService.getCategoryKey("Makan")', 
+        BudgetService.getCategoryKey('Makan') === 'makan',
+        `Harapan: makan | Hasil: ${BudgetService.getCategoryKey('Makan')}`
+      );
+      assert(
+        'BudgetService.isTabungan("Tabungan")', 
+        BudgetService.isTabungan('Tabungan') === true,
+        `Harapan: true | Hasil: ${BudgetService.isTabungan('Tabungan')}`
+      );
+      assert(
+        'BudgetService.isTabungan("Makan")', 
+        BudgetService.isTabungan('Makan') === false,
+        `Harapan: false | Hasil: ${BudgetService.isTabungan('Makan')}`
+      );
+
+      // Test 5: ReportService Calculations
+      const dummySettings = {
+        salary: 6000000,
+        budgets: {
+          tabungan: 3000000,
+          makan: 565000
+        }
+      };
+      
+      const dummyTransactions = [
+        { id: 1, date: '2026-07-05', category: 'Tabungan', amount: 500000, description: 'Sudah dipisahkan', created_at: '' },
+        { id: 2, date: '2026-07-06', category: 'Makan', amount: 7000, description: 'Makan pagi', created_at: '' },
+        { id: 3, date: '2026-07-07', category: 'Makan', amount: 13000, description: 'Makan siang', created_at: '' }
+      ];
+      
+      const summary = ReportService.calculateSummary(dummySettings, dummyTransactions);
+      
+      assert(
+        'ReportService: Hitung Sisa Saldo (Gaji - Total Pengeluaran)', 
+        summary.sisaSaldo === 5980000, // 6.000.000 - 20.000 (Makan) = 5.980.000
+        `Gaji: 6.000.000, Pengeluaran Non-Tabungan: 20.000 | Harapan Sisa Saldo: 5.980.000 | Hasil: ${summary.sisaSaldo}`
+      );
+      assert(
+        'ReportService: Sudah Ditabung (Tabungan category sum)', 
+        summary.sudahDitabung === 500000, 
+        `Harapan: 500.000 | Hasil: ${summary.sudahDitabung}`
+      );
+      assert(
+        'ReportService: Sisa Target Tabungan (Target - Sudah Ditabung)', 
+        summary.sisaTargetTabungan === 2500000, 
+        `Target: 3.000.000, Sudah Ditabung: 500.000 | Harapan Sisa Target: 2.500.000 | Hasil: ${summary.sisaTargetTabungan}`
+      );
+
+      // Test 6: ReportService WhatsApp format
+      const waReport = ReportService.generateWhatsAppReport('2026-07', dummySettings, dummyTransactions);
+      assert(
+        'ReportService: WhatsApp Report format generation', 
+        typeof waReport === 'string' && waReport.includes('📅 PENGELUARAN BULAN JULI 2026') && waReport.includes('Sisa Target:\nRp2.500.000'),
+        `Harapan: Laporan text valid berisi Bulan Juli & Sisa Target Rp2.500.000 | Hasil: \n${waReport}`
+      );
+
+    } catch (e) {
+      assert('Menjalankan Test Suite Tanpa Eror', false, e.stack);
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Aplikasi pencatatan pengeluaran pribadi yang otomatis tersimpan di GitHub Repository menggunakan GitHub REST API.">
+  <title>Personal Expense Tracker</title>
+  
+  <!-- CSS Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+  
+  <!-- Google Fonts (Plus Jakarta Sans) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- Background decorative meshes -->
+  <div class="bg-mesh bg-mesh-1"></div>
+  <div class="bg-mesh bg-mesh-2"></div>
+
+  <!-- App Wrapper (Mobile-first centered constraint) -->
+  <div class="app-container">
+    
+    <!-- HEADER -->
+    <header class="app-header">
+      <div class="header-main">
+        <div class="header-titles">
+          <h1>Personal Expense Tracker</h1>
+          <span id="current-month-display" class="month-title">Memuat bulan...</span>
+        </div>
+        
+        <!-- Connection status info in header -->
+        <div class="sync-status-bar">
+          <span id="sync-status-indicator" class="status-dot unconfigured"></span>
+          <span id="sync-status-label" class="status-text">Memeriksa koneksi...</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- SUMMARY SECTION -->
+    <section class="summary-section">
+      <h2 class="section-title-hidden">Ringkasan Keuangan</h2>
+      
+      <!-- Grid Cards -->
+      <div class="summary-grid">
+        <!-- Card Gaji -->
+        <div class="summary-card-item salary-card">
+          <div class="summary-card-header">
+            <span class="summary-label">Gaji</span>
+            <div class="summary-icon bg-green-light">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="12" y1="1" x2="12" y2="23"></line>
+                <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+              </svg>
+            </div>
+          </div>
+          <span id="summary-salary" class="summary-val">Rp0</span>
+        </div>
+
+        <!-- Card Pengeluaran -->
+        <div class="summary-card-item expense-card">
+          <div class="summary-card-header">
+            <span class="summary-label">Pengeluaran</span>
+            <div class="summary-icon bg-red-light">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="7" y1="17" x2="17" y2="7"></line>
+                <polyline points="7 7 17 7 17 17"></polyline>
+              </svg>
+            </div>
+          </div>
+          <span id="summary-expenses" class="summary-val text-red">Rp0</span>
+        </div>
+
+        <!-- Card Sisa Saldo -->
+        <div class="summary-card-item balance-card">
+          <div class="summary-card-header">
+            <span class="summary-label">Sisa Saldo</span>
+            <div class="summary-icon bg-teal-light">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="5" width="20" height="14" rx="2" ry="2"></rect>
+                <line x1="2" y1="10" x2="22" y2="10"></line>
+              </svg>
+            </div>
+          </div>
+          <span id="summary-balance" class="summary-val text-green">Rp0</span>
+        </div>
+      </div>
+      
+      <!-- Tabungan Widget Inside Summary Card -->
+      <div id="summary-savings" class="summary-savings-card">
+        <!-- Will be filled dynamically by UIService -->
+      </div>
+    </section>
+
+    <!-- COPY REPORT BUTTON -->
+    <div class="action-bar">
+      <button id="btn-copy-report" class="btn-copy">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
+          <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
+        </svg>
+        Salin Laporan WhatsApp
+      </button>
+    </div>
+
+    <!-- REPORT LISTING -->
+    <section class="report-section">
+      <div id="categories-container">
+        <!-- Will be rendered dynamically by UIService -->
+      </div>
+    </section>
+
+    <!-- FLOATING TAB BAR DOCK (UX Optimasi untuk Mobile Thumb reach) -->
+    <nav class="bottom-dock-container">
+      <div class="bottom-dock">
+        <!-- History Action -->
+        <button id="btn-history" class="dock-item" title="Riwayat Bulan">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="dock-icon">
+            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+            <line x1="16" y1="2" x2="16" y2="6"></line>
+            <line x1="8" y1="2" x2="8" y2="6"></line>
+            <line x1="3" y1="10" x2="21" y2="10"></line>
+          </svg>
+          <span class="dock-label">Bulan</span>
+        </button>
+        
+        <!-- Main Circular ADD button -->
+        <div class="dock-center-wrapper">
+          <button id="btn-add-tx" class="dock-center-btn" title="Tambah Transaksi">
+            <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="12" y1="5" x2="12" y2="19"></line>
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+          </button>
+        </div>
+        
+        <!-- Settings Action -->
+        <button id="btn-settings" class="dock-item" title="Pengaturan">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="dock-icon">
+            <circle cx="12" cy="12" r="3"></circle>
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+          </svg>
+          <span class="dock-label">Setting</span>
+        </button>
+      </div>
+    </nav>
+
+    <!-- FOOTER/SPACER FOR BOTTOM DOCK -->
+    <div class="bottom-spacer"></div>
+
+  </div> <!-- End App Container -->
+
+  <!-- MODAL: ADD / EDIT TRANSACTION -->
+  <div id="transaction-modal" class="modal-overlay">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h2 id="tx-modal-title">Tambah Transaksi</h2>
+        <button type="button" class="modal-close-btn" onclick="document.getElementById('transaction-modal').classList.remove('active'); document.body.classList.remove('modal-open');">&times;</button>
+      </div>
+      <form id="tx-form" class="modal-body">
+        <input type="hidden" id="tx-id">
+        
+        <div class="form-group">
+          <label for="tx-amount">Nominal (Rupiah)</label>
+          <div class="input-prefix-wrapper">
+            <span class="input-prefix-text">Rp</span>
+            <input type="number" id="tx-amount" placeholder="0" min="1" required class="form-input with-prefix">
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label for="tx-category">Kategori</label>
+          <select id="tx-category" required class="form-select">
+            <!-- Will be populated dynamically -->
+          </select>
+        </div>
+        
+        <div class="form-group">
+          <label for="tx-description">Keterangan</label>
+          <input type="text" id="tx-description" placeholder="Contoh: Makan siang nasi padang" required class="form-input">
+        </div>
+        
+        <!-- Today's date will be populated by default but we keep it hidden/readonly for simple use -->
+        <input type="hidden" id="tx-date">
+
+        <div class="modal-actions">
+          <button type="button" id="btn-delete-tx" class="btn btn-danger">Hapus</button>
+          <div class="flex-spacer"></div>
+          <button type="button" class="btn btn-secondary" onclick="document.getElementById('transaction-modal').classList.remove('active'); document.body.classList.remove('modal-open');">Batal</button>
+          <button type="submit" class="btn btn-primary">Simpan</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- BOTTOM SHEET / MODAL: HISTORY MONTHS -->
+  <div id="history-modal" class="modal-overlay bottom-sheet">
+    <div class="modal-card">
+      <!-- Drag handle helper for visual aesthetics on bottom sheets -->
+      <div class="sheet-drag-handle"></div>
+      <div class="modal-header">
+        <h2>Pilih Periode Bulan</h2>
+        <button type="button" class="modal-close-btn" onclick="document.getElementById('history-modal').classList.remove('active'); document.body.classList.remove('modal-open');">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div id="history-month-list" class="month-selection-list">
+          <!-- Filled dynamically -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: SETTINGS & GITHUB CONFIG -->
+  <div id="settings-modal" class="modal-overlay">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h2>Pengaturan Profil & GitHub</h2>
+        <button type="button" class="modal-close-btn" onclick="document.getElementById('settings-modal').classList.remove('active'); document.body.classList.remove('modal-open');">&times;</button>
+      </div>
+      <form id="settings-form" class="modal-body">
+        
+        <div class="section-divider-title">
+          <span>⚙️ KEUANGAN & BUDGET</span>
+        </div>
+        
+        <div class="form-group">
+          <label for="settings-salary">Gaji Bulanan (Rupiah)</label>
+          <div class="input-prefix-wrapper">
+            <span class="input-prefix-text">Rp</span>
+            <input type="number" id="settings-salary" min="0" required class="form-input with-prefix">
+          </div>
+        </div>
+        
+        <div id="settings-budgets-container" class="settings-budgets-grid">
+          <!-- budgets generated dynamically -->
+        </div>
+
+        <div class="section-divider-title">
+          <span>📂 GITHUB CLOUD DATABASE</span>
+        </div>
+        
+        <div class="form-group">
+          <label for="settings-gh-username">GitHub Username</label>
+          <input type="text" id="settings-gh-username" placeholder="Contoh: budisanjaya" class="form-input">
+        </div>
+        <div class="form-group">
+          <label for="settings-gh-repo">Repository Name</label>
+          <input type="text" id="settings-gh-repo" placeholder="Contoh: data-keuangan" class="form-input">
+        </div>
+        <div class="form-group">
+          <label for="settings-gh-branch">Branch</label>
+          <input type="text" id="settings-gh-branch" value="main" class="form-input">
+        </div>
+        <div class="form-group">
+          <label for="settings-gh-token">Fine-grained Personal Access Token</label>
+          <input type="password" id="settings-gh-token" placeholder="github_pat_..." class="form-input">
+          <span class="help-text">Token ini disimpan secara lokal di dalam browser Anda dan tidak dikirim ke server luar.</span>
+        </div>
+
+        <div class="modal-actions">
+          <button type="button" class="btn btn-secondary" onclick="document.getElementById('settings-modal').classList.remove('active'); document.body.classList.remove('modal-open');">Batal</button>
+          <button type="submit" class="btn btn-primary">Simpan Pengaturan</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- TOAST NOTIFICATION CONTAINER -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <!-- LOADING OVERLAY -->
+  <div id="loading-overlay" class="loading-overlay">
+    <div class="loading-content">
+      <div class="spinner"></div>
+      <span id="loading-text">Menghubungkan ke GitHub...</span>
+    </div>
+  </div>
+
+  <!-- JS Coordinator Entry Point -->
+  <script type="module" src="script.js"></script>
+</body>
+</html>

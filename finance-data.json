@@ -14,6 +14,272 @@
     }
   },
   "transactions": {
+    "2026-06": [
+      {
+        "id": 101,
+        "date": "2026-06-01",
+        "category": "Lain-lain",
+        "amount": 50000,
+        "description": "Uang jajan (uang sampah)",
+        "created_at": "2026-06-01T09:00"
+      },
+      {
+        "id": 102,
+        "date": "2026-06-01",
+        "category": "Lain-lain",
+        "amount": 22000,
+        "description": "Beli getcontact premium",
+        "created_at": "2026-06-01T10:00"
+      },
+      {
+        "id": 103,
+        "date": "2026-06-02",
+        "category": "Lain-lain",
+        "amount": 26000,
+        "description": "Beli telegram premium",
+        "created_at": "2026-06-02T09:00"
+      },
+      {
+        "id": 104,
+        "date": "2026-06-02",
+        "category": "Makan",
+        "amount": 16000,
+        "description": "Shopee chicken",
+        "created_at": "2026-06-02T13:00"
+      },
+      {
+        "id": 105,
+        "date": "2026-06-05",
+        "category": "Lain-lain",
+        "amount": 20000,
+        "description": "Pulsa 20k",
+        "created_at": "2026-06-05T09:00"
+      },
+      {
+        "id": 106,
+        "date": "2026-06-05",
+        "category": "Lain-lain",
+        "amount": 10000,
+        "description": "Pulsa 10k",
+        "created_at": "2026-06-05T14:00"
+      },
+      {
+        "id": 107,
+        "date": "2026-06-08",
+        "category": "Lain-lain",
+        "amount": 77000,
+        "description": "Baju jogging 77k",
+        "created_at": "2026-06-08T10:00"
+      },
+      {
+        "id": 108,
+        "date": "2026-06-08",
+        "category": "Lain-lain",
+        "amount": 89000,
+        "description": "Baju jogging 89k",
+        "created_at": "2026-06-08T15:00"
+      },
+      {
+        "id": 109,
+        "date": "2026-06-10",
+        "category": "Lain-lain",
+        "amount": 25000,
+        "description": "Belt jogging 25k",
+        "created_at": "2026-06-10T11:00"
+      },
+      {
+        "id": 110,
+        "date": "2026-06-10",
+        "category": "Lain-lain",
+        "amount": 7000,
+        "description": "Langganan PK 7k",
+        "created_at": "2026-06-10T14:00"
+      },
+      {
+        "id": 111,
+        "date": "2026-06-12",
+        "category": "Lain-lain",
+        "amount": 15000,
+        "description": "Kuota mamah 15k",
+        "created_at": "2026-06-12T09:00"
+      },
+      {
+        "id": 112,
+        "date": "2026-06-12",
+        "category": "Makan",
+        "amount": 60000,
+        "description": "Kopi nako 60k",
+        "created_at": "2026-06-12T16:00"
+      },
+      {
+        "id": 113,
+        "date": "2026-06-14",
+        "category": "Lain-lain",
+        "amount": 65000,
+        "description": "Kuota bulanan 65k",
+        "created_at": "2026-06-14T10:00"
+      },
+      {
+        "id": 114,
+        "date": "2026-06-14",
+        "category": "Makan",
+        "amount": 26000,
+        "description": "Kopi nako 26k",
+        "created_at": "2026-06-14T15:00"
+      },
+      {
+        "id": 115,
+        "date": "2026-06-15",
+        "category": "Makan",
+        "amount": 24000,
+        "description": "Ngopi bareng Abdul 24k",
+        "created_at": "2026-06-15T13:00"
+      },
+      {
+        "id": 116,
+        "date": "2026-06-15",
+        "category": "Lain-lain",
+        "amount": 10000,
+        "description": "E money 10k",
+        "created_at": "2026-06-15T17:00"
+      },
+      {
+        "id": 117,
+        "date": "2026-06-18",
+        "category": "Makan",
+        "amount": 100000,
+        "description": "Beli martabak dan pulang 100k",
+        "created_at": "2026-06-18T19:00"
+      },
+      {
+        "id": 118,
+        "date": "2026-06-18",
+        "category": "Sabun",
+        "amount": 30000,
+        "description": "Beli deodoran & cukur kumis 30k",
+        "created_at": "2026-06-18T20:00"
+      },
+      {
+        "id": 119,
+        "date": "2026-06-20",
+        "category": "Jalan-jalan",
+        "amount": 230000,
+        "description": "Beli tiket 230k",
+        "created_at": "2026-06-20T10:00"
+      },
+      {
+        "id": 120,
+        "date": "2026-06-20",
+        "category": "Makan",
+        "amount": 15000,
+        "description": "Beli jajan 15k",
+        "created_at": "2026-06-20T15:00"
+      },
+      {
+        "id": 121,
+        "date": "2026-06-22",
+        "category": "Makan",
+        "amount": 13000,
+        "description": "Beli makan 13k",
+        "created_at": "2026-06-22T08:00"
+      },
+      {
+        "id": 122,
+        "date": "2026-06-22",
+        "category": "Makan",
+        "amount": 15000,
+        "description": "Beli kopi 15k",
+        "created_at": "2026-06-22T13:00"
+      },
+      {
+        "id": 123,
+        "date": "2026-06-22",
+        "category": "Makan",
+        "amount": 10000,
+        "description": "Makan 10k",
+        "created_at": "2026-06-22T18:00"
+      },
+      {
+        "id": 124,
+        "date": "2026-06-24",
+        "category": "Sabun",
+        "amount": 85000,
+        "description": "Beli sabun 85k",
+        "created_at": "2026-06-24T10:00"
+      },
+      {
+        "id": 125,
+        "date": "2026-06-24",
+        "category": "Makan",
+        "amount": 20000,
+        "description": "Makan 20k",
+        "created_at": "2026-06-24T13:00"
+      },
+      {
+        "id": 126,
+        "date": "2026-06-26",
+        "category": "Makan",
+        "amount": 31000,
+        "description": "Makan 31k",
+        "created_at": "2026-06-26T12:00"
+      },
+      {
+        "id": 127,
+        "date": "2026-06-26",
+        "category": "Lain-lain",
+        "amount": 10000,
+        "description": "Gojek 10k",
+        "created_at": "2026-06-26T15:00"
+      },
+      {
+        "id": 128,
+        "date": "2026-06-26",
+        "category": "Makan",
+        "amount": 20000,
+        "description": "Makan 20k",
+        "created_at": "2026-06-26T18:30"
+      },
+      {
+        "id": 129,
+        "date": "2026-06-28",
+        "category": "Lain-lain",
+        "amount": 170000,
+        "description": "Tws 170k",
+        "created_at": "2026-06-28T14:00"
+      },
+      {
+        "id": 130,
+        "date": "2026-06-28",
+        "category": "Makan",
+        "amount": 8000,
+        "description": "Kopi 8k",
+        "created_at": "2026-06-28T17:00"
+      },
+      {
+        "id": 131,
+        "date": "2026-06-30",
+        "category": "Makan",
+        "amount": 6600,
+        "description": "Kopi 6.600",
+        "created_at": "2026-06-30T09:00"
+      },
+      {
+        "id": 132,
+        "date": "2026-06-30",
+        "category": "Makan",
+        "amount": 12000,
+        "description": "Makan 12.000",
+        "created_at": "2026-06-30T13:00"
+      },
+      {
+        "id": 133,
+        "date": "2026-06-30",
+        "category": "Makan",
+        "amount": 20000,
+        "description": "Warteg 20.000",
+        "created_at": "2026-06-30T19:00"
+      }
+    ],
     "2026-07": [
       {
         "id": 1,

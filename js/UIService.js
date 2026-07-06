@@ -26,6 +26,7 @@ export class UIService {
       // Modals
       transactionModal: document.getElementById('transaction-modal'),
       historyModal: document.getElementById('history-modal'),
+      historyMonthList: document.getElementById('history-month-list'),
       settingsModal: document.getElementById('settings-modal'),
       loadingOverlay: document.getElementById('loading-overlay'),
       loadingText: document.getElementById('loading-text'),

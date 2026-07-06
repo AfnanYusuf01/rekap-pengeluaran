@@ -33,10 +33,10 @@ export class ReportService {
       }
 
       const amount = Number(tx.amount) || 0;
+      totalPengeluaran += amount;
+
       if (BudgetService.isTabungan(key)) {
         sudahDitabung += amount;
-      } else {
-        totalPengeluaran += amount;
       }
     });
 

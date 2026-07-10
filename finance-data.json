@@ -536,6 +536,14 @@
         "amount": 6500,
         "description": "Jajan roti",
         "created_at": "2026-07-11T05:29"
+      },
+      {
+        "id": 1783722633525,
+        "date": "2026-07-11",
+        "category": "Makan",
+        "amount": 50000,
+        "description": "DP - jalan''",
+        "created_at": "2026-07-11T05:30"
       }
     ]
   }

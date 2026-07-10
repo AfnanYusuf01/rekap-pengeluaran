@@ -488,6 +488,14 @@
         "amount": 100000,
         "description": "Bensin",
         "created_at": "2026-07-11T05:25"
+      },
+      {
+        "id": 1783722412611,
+        "date": "2026-07-11",
+        "category": "Makan",
+        "amount": 9000,
+        "description": "Maksi - ampela",
+        "created_at": "2026-07-11T05:26"
       }
     ]
   }

@@ -576,6 +576,14 @@
         "amount": 23000,
         "description": "Langganan gemini",
         "created_at": "2026-07-11T05:34"
+      },
+      {
+        "id": 1783722874277,
+        "date": "2026-07-11",
+        "category": "Jalan-jalan",
+        "amount": 9500,
+        "description": "Beli minum",
+        "created_at": "2026-07-11T05:34"
       }
     ]
   }

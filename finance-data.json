@@ -584,6 +584,14 @@
         "amount": 9500,
         "description": "Beli minum",
         "created_at": "2026-07-11T05:34"
+      },
+      {
+        "id": 1783722999970,
+        "date": "2026-07-11",
+        "category": "Lain-lain",
+        "amount": 130000,
+        "description": "Kemeja - korduroy ",
+        "created_at": "2026-07-11T05:36"
       }
     ]
   }

@@ -456,6 +456,14 @@
         "amount": 78000,
         "description": "Jersey",
         "created_at": "2026-07-06T18:00"
+      },
+      {
+        "id": 1783722234973,
+        "date": "2026-07-11",
+        "category": "Tabungan",
+        "amount": 550000,
+        "description": "Kurang",
+        "created_at": "2026-07-11T05:23"
       }
     ]
   }

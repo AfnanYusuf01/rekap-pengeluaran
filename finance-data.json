@@ -480,6 +480,14 @@
         "amount": 50000,
         "description": "Gelang",
         "created_at": "2026-07-11T05:24"
+      },
+      {
+        "id": 1783722313218,
+        "date": "2026-07-11",
+        "category": "Bensin",
+        "amount": 100000,
+        "description": "Bensin",
+        "created_at": "2026-07-11T05:25"
       }
     ]
   }
